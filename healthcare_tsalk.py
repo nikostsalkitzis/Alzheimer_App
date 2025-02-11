@@ -11,50 +11,110 @@ def predict(data):
     return prediction
 
 # Streamlit frontend
-st.set_page_config(page_title="Alzheimer's Disease Prediction", page_icon="🧠", layout="centered")
+st.set_page_config(page_title="Alzheimer's Disease Prediction", page_icon="🧠", layout="wide")
 
+# Custom CSS for styling
 st.markdown(
     """
     <style>
     body {
-        background-color: #f581ff;
+        background-color: #f0f2f6;
         color: #262730;
     }
     .stApp {
-        background-color: #f581ff;
+        background-color: #f0f2f6;
+    }
+    .stButton>button {
+        background-color: #4a148c;
+        color: white;
+        border-radius: 10px;
+        padding: 10px 24px;
+    }
+    .stMarkdown h1, .stMarkdown h2, .stMarkdown h3 {
+        color: #4a148c;
+    }
+    .stMarkdown p {
+        font-size: 16px;
+    }
+    .stSidebar {
+        background-color: #e0bbff;
+        padding: 20px;
+        border-radius: 10px;
+    }
+    .stDataFrame {
+        border-radius: 10px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     }
     </style>
     """,
     unsafe_allow_html=True
 )
 
-st.title("Alzheimer's Disease Prediction 🧠")
-st.write("This app helps predict whether a person has Alzheimer's disease based on certain lifestyle and health factors. Fill in the details below to get your prediction.")
 
-# Input fields with emojis for visual appeal
-age = st.number_input("👵 Age", min_value=0, max_value=120, value=60)
-gender = st.selectbox("👤 Gender", ['Male', 'Female'])
-education_level = st.selectbox("🎓 Education Level", ['Low', 'Medium', 'High'])
-bmi = st.number_input("🏋️‍♀️ BMI", min_value=0.0, value=25.0)
-physical_activity = st.selectbox("🏃‍♂️ Physical Activity Level", ['Low', 'Medium', 'High'])
-smoking_status = st.selectbox("🚬 Smoking Status", ['Current', 'Former', 'Never'])
-alcohol_consumption = st.selectbox("🍷 Alcohol Consumption", ['Never', 'Regularly', 'Occasionally'])
-diabetes = st.selectbox("💉 Diabetes", ['No', 'Yes'])
-hypertension = st.selectbox("❤️ Hypertension", ['No', 'Yes'])
-cholesterol_level = st.selectbox("💪 Cholesterol Level", ['Normal', 'High'])
-family_history = st.selectbox("👪 Family History of Alzheimer’s", ['No', 'Yes'])
-cognitive_test_score = st.number_input("📝 Cognitive Test Score", min_value=0, max_value=30, value=15)
-depression_level = st.selectbox("😞 Depression Level", ['Low', 'Medium', 'High'])
-sleep_quality = st.selectbox("🛏 Sleep Quality", ['Poor', 'Average', 'Good'])
-dietary_habits = st.selectbox("🍽 Dietary Habits", ['Unhealthy', 'Average', 'Healthy'])
-air_pollution = st.selectbox("🌫 Air Pollution Exposure", ['Low', 'Medium', 'High'])
-employment_status = st.selectbox("💼 Employment Status", ['Unemployed', 'Retired', 'Employed'])
-marital_status = st.selectbox("💍 Marital Status", ['Widowed', 'Single', 'Married'])
-genetic_risk = st.selectbox("🧬 Genetic Risk (APOE-ε4 allele)", ['No', 'Yes'])
-social_engagement = st.selectbox("🗣 Social Engagement Level", ['Low', 'Medium', 'High'])
-income_level = st.selectbox("💰 Income Level", ['Low', 'Medium', 'High'])
-stress_level = st.selectbox("😰 Stress Levels", ['Low', 'Medium', 'High'])
-urban_rural = st.selectbox("🌆 Urban vs Rural Living", ['Rural', 'Urban'])
+
+# Title and description
+st.title("Alzheimer's Disease Prediction 🧠")
+st.write("""
+This app helps predict whether a person has Alzheimer's disease based on certain lifestyle and health factors. 
+Fill in the details below to get your prediction.
+""")
+
+# Sidebar for additional information
+with st.sidebar:
+    st.header("About Alzheimer's Disease")
+    st.write("""
+    Alzheimer's disease is a progressive disorder that causes brain cells to waste away (degenerate) and die. 
+    It's the most common cause of dementia — a continuous decline in thinking, behavioral and social skills 
+    that disrupts a person's ability to function independently.
+    """)
+    st.write("**Symptoms:**")
+    st.write("- Memory loss")
+    st.write("- Difficulty in thinking and reasoning")
+    st.write("- Difficulty in making judgments and decisions")
+    st.write("- Changes in personality and behavior")
+    st.write("**Risk Factors:**")
+    st.write("- Age")
+    st.write("- Family history")
+    st.write("- Genetics")
+    st.write("- Head trauma")
+    st.write("- Lifestyle and heart health")
+    st.write("**Prevention Tips:**")
+    st.write("- Regular physical activity")
+    st.write("- Healthy diet")
+    st.write("- Mental stimulation")
+    st.write("- Quality sleep")
+    st.write("- Social engagement")
+
+# Organize input fields in columns
+col1, col2 = st.columns(2)
+
+with col1:
+    age = st.number_input("👵 Age", min_value=0, max_value=120, value=60)
+    gender = st.selectbox("👤 Gender", ['Male', 'Female'])
+    education_level = st.selectbox("🎓 Education Level", ['Low', 'Medium', 'High'])
+    bmi = st.number_input("🏋️‍♀️ BMI", min_value=0.0, value=25.0)
+    physical_activity = st.selectbox("🏃‍♂️ Physical Activity Level", ['Low', 'Medium', 'High'])
+    smoking_status = st.selectbox("🚬 Smoking Status", ['Current', 'Former', 'Never'])
+    alcohol_consumption = st.selectbox("🍷 Alcohol Consumption", ['Never', 'Regularly', 'Occasionally'])
+    diabetes = st.selectbox("💉 Diabetes", ['No', 'Yes'])
+    hypertension = st.selectbox("❤️ Hypertension", ['No', 'Yes'])
+    marital_status = st.selectbox("💍 Marital Status", ['Widowed', 'Single', 'Married'])
+    genetic_risk = st.selectbox("🧬 Genetic Risk (APOE-ε4 allele)", ['No', 'Yes'])
+    social_engagement = st.selectbox("🗣  Social Engagement Level", ['Low', 'Medium', 'High'])
+
+with col2:
+    cholesterol_level = st.selectbox("💪 Cholesterol Level", ['Normal', 'High'])
+    family_history = st.selectbox("👪 Family History of Alzheimer’s", ['No', 'Yes'])
+    cognitive_test_score = st.number_input("📝 Cognitive Test Score", min_value=0, max_value=30, value=15)
+    depression_level = st.selectbox("😞 Depression Level", ['Low', 'Medium', 'High'])
+    sleep_quality = st.selectbox("🛏 Sleep Quality", ['Poor', 'Average', 'Good'])
+    dietary_habits = st.selectbox("🍽 Dietary Habits", ['Unhealthy', 'Average', 'Healthy'])
+    air_pollution = st.selectbox("🌫 Air Pollution Exposure", ['Low', 'Medium', 'High'])
+    employment_status = st.selectbox("💼 Employment Status", ['Unemployed', 'Retired', 'Employed'])
+    income_level = st.selectbox("💰 Income Level", ['Low', 'Medium', 'High'])
+    stress_level = st.selectbox("😰 Stress Levels", ['Low', 'Medium', 'High'])
+    urban_rural = st.selectbox("🌆 Urban vs Rural Living", ['Rural', 'Urban'])
+
 
 # Create a DataFrame for input
 input_data = pd.DataFrame({
@@ -129,17 +189,18 @@ input_data['BMI'] = input_data['BMI']  # BMI is already numerical, so no mapping
 input_data['Cognitive Test Score'] = input_data['Cognitive Test Score']  # No mapping needed
 
 # Make the prediction
-prediction = predict(input_data)
+if st.button("Predict"):
+    prediction = predict(input_data)
 
-# Display the result
-st.write("### Input data:")
-st.write(input_data)
+    # Display the result
+    st.write("### Input data:")
+    st.write(input_data)
 
-st.write("### Prediction result:")
-if prediction == 1:
-    st.markdown("🔴 **The model predicts that the person may have Alzheimer's disease.**")
-else:
-    st.markdown("🟢 **The model predicts that the person may not have Alzheimer's disease.**")
+    st.write("### Prediction result:")
+    if prediction == 1:
+        st.markdown("🔴 **The model predicts that the person may have Alzheimer's disease.**")
+    else:
+        st.markdown("🟢 **The model predicts that the person may not have Alzheimer's disease.**")
 
 # Add footer text
 st.write("### Disclaimer:")
@@ -159,4 +220,3 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-
